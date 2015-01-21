@@ -1,16 +1,9 @@
 (ns galapagos.polynomial
   (:gen-class))
 
-(defn foo-from-polynomial []
-  (println "Printed from galapagos.polynomial"))
-
-
-
 ;
 ; The polynomial part.
 ;
-
-
 
 ;
 ; Polynomials are represented by vectors of coefficients. 

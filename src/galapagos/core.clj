@@ -1,43 +1,14 @@
 (ns galapagos.core
-  (:use [galapagos.polynomial])
+  (:use [galapagos.config] 
+        [galapagos.polynomial])
   (:gen-class))
 
 ;
 ; Genetic Programming part.
 ;
 
-
 (def target-polynomial (polynomial-from-roots [1 2 3 5 7]))
 (def target-function (poly-to-function target-polynomial))
-
-; This is the fitness function. This should be as low as possible. As close to 0 as possible.
-; Actually this will not work. We have to compare a polynomial to the results of the
-; generated programs.
-
-; It is probably a better idea to 
-(defn fitness-function [p1 p2]
-   (apply + (map abs (poly-difference-multi p1 p2 (range 10.0)))))
-
-(def terminals (cons 'x (list 1 2 3 5 7)))
-(def functions [+ - *])
-
-; Some control parameters
-(def population-size 500)
-(def max-generation-count 100)
-
-(def max-tree-depth 10)
-(def generation-function-threshold 0.5)
-(def max-mutation-tree-depth 4)
-(def max-initial-tree-depth 6)
-
-(def mutation-probability      0.08)
-(def crossover-probability     0.80)
-(def reproduction-probability  0.08)
-
-(def mutation-tournament-size 2)
-(def reproduction-tournament-size 2)
-(def crossover-tournament-size 2)
-(def pruning-tournament-size 2)
 
 (defn operator
   "Gets the operator from a node."
