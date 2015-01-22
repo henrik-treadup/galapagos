@@ -1,123 +1,20 @@
 (ns galapagos.core
-  (:use [galapagos.config] 
-        [galapagos.polynomial])
+  (:use [galapagos.config]
+        [galapagos.util]
+        [galapagos.polynomial]
+        [galapagos.ast]
+        [galapagos.fitness])
   (:gen-class))
+
 
 ;
 ; Genetic Programming part.
 ;
 
-(def target-polynomial (polynomial-from-roots [1 2 3 5 7]))
-(def target-function (poly-to-function target-polynomial))
-
-(defn operator
-  "Gets the operator from a node."
-  [tree]
-  (first tree))
-
-(defn right-child
-  "Gets the right child from a node."
-  [tree]
-  (nth tree 2))
-
-(defn left-child
-  "Gets the left child from a node."
-  [tree]
-  (nth tree 1))
-  
-
-
-; Determines if x is a terminal
-(defn function? 
-  ([x]
-     (function? x functions))
-  ([x funcs]
-     (if (empty? funcs)
-        false
-        (if (= x (first funcs))
-           true
-           (function? x (rest funcs))))))
-
-
-(defn random-function []
-  (rand-nth (list '+ '- '* )))
-
-; Returns a random number between +10 and -10.
-(defn random-number []
-  (- (rand-int 21) 10))
-
-(defn random-terminal []
-  (if (> (rand 1.0) 0.5)
-    'x
-    (random-number)))
-
-(defn grow-random-tree [tree-depth]
-  (cond
-   (= tree-depth 0) (random-terminal)
-   (< (rand 1.0) generation-function-threshold) (random-terminal)
-   :else (list (random-function) 
-               (grow-random-tree (dec tree-depth)) 
-               (grow-random-tree (dec tree-depth)))))
-
-; Generates a full tree with the given depth.
-(defn random-full-tree [tree-depth]
-  (cond
-   (= tree-depth 0) (random-terminal)
-   :else (list (random-function)
-               (random-full-tree (dec tree-depth))
-               (random-full-tree (dec tree-depth)))))
-
-; Creates a random tree with the given tree depth.
-; If method is :grow then a tree will be grown.
-; If method is :full then a full tree will be generated.
-(defn random-tree [tree-depth method]
-  (cond
-   (= method :grow) (grow-random-tree tree-depth)
-   (= method :full) (random-full-tree tree-depth)))
-
-; Creates a function based on a tree. The function takes a number
-; as an argument and returns the calculated value of the program
-; at that point.
-(defn tree-to-function [tree]
-  (eval (list 'fn '[x] tree)))
-
-
-; I need to create a fitness function.
-
-; Eval a function at a list of points
-
-; Samples a function on certain points between 0.0 and 10.0
-(defn sample-function [f]
-   (map f (range 0.0 10.0 0.1)))
-
-(defn error-function [f]
-   (fn [x]
-     (- (target-function x) (f x))))
-
-(defn error-squared-function [f]
-   (fn [x]
-      (let [error-func (error-function f)]
-         (let [error (error-func x)]
-            (* error error)))))
-
-; This is the fitness function. It calculates the fitness of a program. A lower value means better fitness.
-(defn fitness [tree]
-  (let [error-squared-func (error-squared-function (tree-to-function tree))]
-    (apply +  (sample-function error-squared-func))))
-
-
 ; There are a couple of things that we have to do.
 ; 1. Generate a random population of initial programs.
 ; 2. Mutate a program.
 ; 3. Sexually reproduce two programs.
-
-
-
-(defn between 
-  "Checks if n lies in the interval [a,b]. Returns true if n is in the
-  interval. Returns false otherwise."
-  [a b n]
-   (and (<= a n) (<= n b)))
 
 
 (defn count-nodes 

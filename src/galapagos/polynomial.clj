@@ -1,4 +1,5 @@
 (ns galapagos.polynomial
+  (:use [galapagos.util])
   (:gen-class))
 
 ;
@@ -92,15 +93,3 @@
     (mul-poly (linear-polynomial (first roots)) 
               (polynomial-from-roots (rest roots)))))
 
-
-; Rename this to inc-range for inclusive-range.
-(defn inc-range 
-  "Creates a list of integers from a to b inclusive.
-   Inclusive range
-  "
-  ([b]
-   (range (inc b)))
-  ([a b]
-   (range a (inc b))))
-
-(def interval-int-list inc-range)
