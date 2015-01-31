@@ -6,7 +6,6 @@
         [galapagos.fitness])
   (:gen-class))
 
-
 ;
 ; Genetic Programming part.
 ;
