@@ -45,7 +45,7 @@
 (defn mul-poly-expanded 
   "Multiplies the polynomials p1 and p2. Returns a list of pairs of coefficients and exponents.
    There can be multiple pairs with the same exponent."
-[p1 p2]
+  [p1 p2]
   (for [i (range (inc (deg p1))) j (range (inc (deg p2)))] (list (* (p1 i) (p2 j)) (+ i j))))
 
 ; Calculates the nth term of the polynomial. 

@@ -22,15 +22,18 @@
   (nth tree 1))
   
 ; Determines if x is a terminal
-(defn function? 
+; This could probably just be
+; replaced with checking if x
+; is a seq instead.
+(defn func? 
   ([x]
-     (function? x functions))
+     (func? x functions))
   ([x funcs]
      (if (empty? funcs)
         false
         (if (= x (first funcs))
            true
-           (function? x (rest funcs))))))
+           (func? x (rest funcs))))))
 
 (defn random-function []
   (rand-nth (list '+ '- '* )))
@@ -44,6 +47,9 @@
     'x
     (random-number)))
 
+
+; This method could generate a tree that has a 
+; smaller depth than the given depth.
 (defn grow-random-tree [tree-depth]
   (cond
    (= tree-depth 0) (random-terminal)
