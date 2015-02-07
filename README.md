@@ -26,3 +26,42 @@ of information are very useful when you are performing the core
 Genetic Programming operations.
 
 I am going to have to think on this a bit before I continue.
+
+Genetic Programming and Data Structures
+---------------------------------------
+The thing about Genetic Programming is that you **want** the program
+trees to be mutable. In Clojure the list datastructure is not mutable.
+Instead we will have to use a different datastructure. The obvious
+choices are vector and map.
+
+Map is probably a better choice because then we could associate additional
+information with each node. For example the index of the node and the
+depth of the node are useful pieces of information when performing 
+crossover and mutations.
+
+One remaining question then is if we should have :left-child and
+:right-child keys in the map that are associated with the left and 
+right child nodes or if we should have a :children key that is associated
+a vector of child nodes. This way we could have an arbitrary number of
+child nodes. I think I will go with an arbitrary number of children
+since this will be very useful in the case of polynomials.
+
+Root Node
+---------
+It is probably a good idea to have a root node for the program tree. Compare
+this with how Knuth does linked lists in the Art of Computer programming.
+
+The root node has one child. This child is the actual root of the tree. The
+purpose of the root node is for the algorithms to be able to treat the actual
+root node of the tree the same as all the other nodes.
+
+Node
+----
+Add a struct called node that contains the following keys.
+
+:function
+:children
+:depth
+:index
+
+ 
