@@ -306,7 +306,7 @@
 
 ; For some reason all the programs converge on a single program.
 ; I am unsure why this is happening.
-; Perhaps the tournament sizes are too large.
+; Perhaps the tournament sizes are too large?
 
 
 ; Record how each individual was created.
@@ -315,4 +315,4 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (println "Hello, World!"))
+  (calculate-generations))
